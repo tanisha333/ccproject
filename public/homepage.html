@@ -2,39 +2,50 @@
 <html>
 <head>
 <title>Dashboard</title>
-
 <script src="https://cdn.tailwindcss.com"></script>
-
 </head>
 
-<body class="min-h-screen bg-gradient-to-r from-purple-500 to-indigo-600 flex items-center justify-center">
+<body class="bg-[#fdf6ff] min-h-screen flex items-center justify-center">
 
-<div class="bg-white p-8 rounded-2xl shadow-xl w-96 text-center">
+<div class="bg-white w-96 p-8 rounded-3xl shadow-md border border-purple-100">
 
-<h2 class="text-2xl font-bold text-purple-700 mb-4">Welcome 👋</h2>
+<h2 class="text-2xl font-semibold text-purple-500 mb-4">
+💖 Hello Beautiful
+</h2>
 
-<div class="bg-purple-100 p-3 rounded mb-3">
-<b>Email:</b>
+<div class="space-y-3 text-left">
+
+<div class="p-3 bg-pink-50 rounded-xl">
+<b>Email</b>
 <p id="email"></p>
 </div>
 
-<div class="bg-purple-100 p-3 rounded mb-3">
-<b>Status:</b>
+<div class="p-3 bg-purple-50 rounded-xl">
+<b>Status</b>
 <p id="status"></p>
 </div>
 
-<div class="bg-purple-100 p-3 rounded mb-4">
-<b>Auth Type:</b>
+<div class="p-3 bg-pink-50 rounded-xl">
+<b>Auth Type</b>
 <p id="auth"></p>
 </div>
 
-<div class="flex gap-2">
-<a href="/app1.html" class="w-full bg-indigo-500 text-white p-2 rounded hover:bg-indigo-600">App1</a>
-<a href="/app2.html" class="w-full bg-indigo-500 text-white p-2 rounded hover:bg-indigo-600">App2</a>
+</div>
+
+<div class="flex gap-3 mt-5">
+<a href="/app1.html"
+class="flex-1 text-center bg-purple-300 text-white p-2 rounded-xl hover:bg-purple-400">
+✨ App1
+</a>
+
+<a href="/app2.html"
+class="flex-1 text-center bg-pink-300 text-white p-2 rounded-xl hover:bg-pink-400">
+🌸 App2
+</a>
 </div>
 
 <button onclick="logout()"
-class="mt-4 w-full bg-red-500 text-white p-2 rounded hover:bg-red-600">
+class="mt-5 w-full bg-red-300 text-white p-2 rounded-xl hover:bg-red-400">
 Logout
 </button>
 

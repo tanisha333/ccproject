@@ -17,23 +17,18 @@ align-items:center;
 .card{
 background:white;
 padding:30px;
-width:350px;
+width:320px;
 border-radius:18px;
 box-shadow:0 12px 35px rgba(0,0,0,0.15);
 text-align:center;
 }
 
-textarea{
-width:100%;
-height:100px;
-border-radius:8px;
-border:1px solid #ddd;
-padding:10px;
-margin-top:10px;
+h2{
+color:#8b5cf6;
+margin-bottom:20px;
 }
 
 button{
-margin-top:10px;
 padding:10px;
 width:100%;
 background:#a78bfa;
@@ -46,45 +41,21 @@ cursor:pointer;
 button:hover{
 background:#8b5cf6;
 }
-
-.saved{
-margin-top:10px;
-font-size:14px;
-color:#666;
-}
 </style>
 </head>
 
 <body>
 
 <div class="card">
-
-<h2>✨ App1 - Notes</h2>
-
-<textarea id="note" placeholder="Write something..."></textarea>
-
-<button onclick="saveNote()">Save Note</button>
-
-<div class="saved" id="status"></div>
+<h2>🌸 Welcome to App2</h2>
 
 <button onclick="goBack()">⬅ Back</button>
-
 </div>
 
 <script>
-
-function saveNote(){
-localStorage.setItem("note", note.value);
-status.innerText = "Saved 💜";
-}
-
 function goBack(){
 window.location.href="/homepage.html";
 }
-
-// load existing note
-note.value = localStorage.getItem("note") || "";
-
 </script>
 
 </body>

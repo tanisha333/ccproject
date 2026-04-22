@@ -1,26 +1,26 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Lavender Auth</title>
+<title>Dashboard</title>
 
 <style>
 body{
 margin:0;
 font-family:Arial;
 background:linear-gradient(135deg,#f3e8ff,#e6d7ff,#d8b4fe);
-height:100vh;
 display:flex;
 justify-content:center;
 align-items:center;
+height:100vh;
 }
 
-.container{
+.card{
 background:white;
-padding:35px;
-width:330px;
+padding:30px;
 border-radius:18px;
-box-shadow:0 12px 35px rgba(0,0,0,0.15);
+width:350px;
 text-align:center;
+box-shadow:0 12px 35px rgba(0,0,0,0.15);
 }
 
 h2{
@@ -28,30 +28,22 @@ color:#8b5cf6;
 margin-bottom:10px;
 }
 
-input{
-width:100%;
-padding:11px;
+.info{
 margin:10px 0;
+padding:10px;
+background:#f5f3ff;
 border-radius:8px;
-border:1px solid #e5e7eb;
-transition:0.3s;
-}
-
-input:focus{
-outline:none;
-border-color:#c084fc;
-box-shadow:0 0 5px rgba(192,132,252,0.4);
 }
 
 button{
-width:100%;
-padding:11px;
+padding:10px;
 background:#a78bfa;
 color:white;
 border:none;
 border-radius:8px;
 cursor:pointer;
 margin-top:10px;
+width:100%;
 transition:0.3s;
 }
 
@@ -59,90 +51,92 @@ button:hover{
 background:#8b5cf6;
 }
 
-.google{
-background:white;
-color:#444;
-border:1px solid #ddd;
+.link{
+display:block;
+margin-top:10px;
+padding:10px;
+background:#ede9fe;
+border-radius:8px;
+text-decoration:none;
+color:#6d28d9;
+transition:0.3s;
 }
 
-.google:hover{
-background:#f9f9f9;
-}
-
-.switch{
-margin-top:15px;
-color:#8b5cf6;
-cursor:pointer;
-font-size:14px;
-}
-
-.switch:hover{
-text-decoration:underline;
+.link:hover{
+background:#ddd6fe;
 }
 </style>
+
 </head>
 
 <body>
 
-<div class="container">
+<div class="card">
 
-<h2 id="title">Login</h2>
+<h2>Welcome 👋</h2>
 
-<input id="email" placeholder="Email">
-<input id="password" type="password" placeholder="Password">
-
-<button onclick="submitForm()" id="mainBtn">Login</button>
-
-<button class="google" onclick="googleLogin()">Continue with Google</button>
-
-<div class="switch" onclick="toggleMode()" id="switchText">
-Switch to Signup
+<div class="info">
+<b>Email:</b>
+<p id="email"></p>
 </div>
+
+<div class="info">
+<b>Status:</b>
+<p id="status"></p>
+</div>
+
+<div class="info">
+<b>Auth Type:</b>
+<p id="auth"></p>
+</div>
+
+<a href="/app1.html" class="link">✨ Open App1</a>
+<a href="/app2.html" class="link">🌸 Open App2</a>
+
+<button onclick="logout()">Logout</button>
 
 </div>
 
 <script>
-let isLogin = true;
 
-function toggleMode(){
-  isLogin = !isLogin;
-  title.innerText = isLogin ? "Login" : "Signup";
-  mainBtn.innerText = isLogin ? "Login" : "Signup";
-  switchText.innerText = isLogin ? "Switch to Signup" : "Switch to Login";
+// get token from URL (after Google login)
+const params = new URLSearchParams(window.location.search);
+let token = params.get("token");
+
+// save token
+if(token){
+localStorage.setItem("token", token);
 }
 
-function submitForm(){
-  const url = isLogin ? "/login" : "/signup";
+// get token
+token = localStorage.getItem("token");
 
-  fetch(url,{
-    method:"POST",
-    headers:{"Content-Type":"application/json"},
-    body:JSON.stringify({
-      email: email.value,
-      password: password.value
-    })
-  })
-  .then(res => isLogin ? res.json() : res.text())
-  .then(data=>{
-    if(isLogin){
-      if(data.success){
-        localStorage.setItem("token", data.token);
-        window.location.href="/homepage.html";
-      }else{
-        alert("Invalid login");
-      }
-    }else{
-      alert(data);
-      if(data === "Signup successful"){
-        toggleMode();
-      }
-    }
-  });
+// if not logged in
+if(!token){
+window.location.href="/";
 }
 
-function googleLogin(){
-  window.location.href="/auth/google";
+// verify
+fetch("/verify",{
+headers:{Authorization:token}
+})
+.then(res=>res.json())
+.then(data=>{
+if(data){
+email.innerText = data.email;
+status.innerText = "Active";
+auth.innerText = "Google + JWT SSO";
+}else{
+window.location.href="/";
 }
+});
+
+// logout
+function logout(){
+localStorage.removeItem("token");
+window.location.href="/";
+}
+
 </script>
 
 </body>

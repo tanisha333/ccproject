@@ -1,0 +1,39 @@
+<h2>Homepage</h2>
+<p id="email"></p>
+
+<a href="/app1.html">App1</a><br>
+<a href="/app2.html">App2</a><br>
+
+<button onclick="logout()">Logout</button>
+
+<script>
+
+const params = new URLSearchParams(window.location.search);
+let token = params.get("token");
+
+if(token){
+localStorage.setItem("token",token);
+}
+
+token = localStorage.getItem("token");
+
+if(!token){
+window.location.href="/";
+}
+
+fetch("/verify",{headers:{Authorization:token}})
+.then(res=>res.json())
+.then(data=>{
+if(data){
+email.innerText=data.email;
+}else{
+window.location.href="/";
+}
+});
+
+function logout(){
+localStorage.removeItem("token");
+window.location.href="/";
+}
+
+</script>

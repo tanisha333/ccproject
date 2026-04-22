@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2>Login</h2>
+
+<input id="email" placeholder="Email">
+<input id="password" type="password">
+
+<button onclick="login()">Login</button>
+
+<script>
+
+const params = new URLSearchParams(window.location.search);
+const redirect = params.get("redirect") || "/homepage.html";
+
+function login(){
+fetch("/login",{
+method:"POST",
+headers:{"Content-Type":"application/json"},
+body:JSON.stringify({
+email:email.value,
+password:password.value,
+redirect:redirect
+})
+})
+.then(res=>{
+window.location.href = res.url;
+});
+}
+
+</script>
+
+</body>
+</html>

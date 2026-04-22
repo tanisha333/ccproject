@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Lavender Auth</title>
+
+<style>
+body{
+margin:0;
+font-family:Arial;
+background:linear-gradient(135deg,#e6d7ff,#c8a2ff,#a57cff);
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+}
+
+.container{
+background:white;
+padding:40px;
+width:330px;
+border-radius:15px;
+box-shadow:0 10px 30px rgba(0,0,0,0.2);
+text-align:center;
+}
+
+h2{color:#7b4fd3;}
+
+input{
+width:100%;
+padding:10px;
+margin:10px 0;
+border-radius:6px;
+border:1px solid #ddd;
+}
+
+button{
+width:100%;
+padding:10px;
+background:#9b6bff;
+color:white;
+border:none;
+border-radius:6px;
+cursor:pointer;
+margin-top:10px;
+}
+
+.google{
+background:white;
+color:black;
+border:1px solid #ddd;
+}
+
+.switch{
+margin-top:15px;
+color:#7b4fd3;
+cursor:pointer;
+font-size:14px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h2 id="title">Login</h2>
+
+<input id="email" placeholder="Email">
+<input id="password" type="password" placeholder="Password">
+
+<button onclick="submitForm()" id="mainBtn">Login</button>
+
+<button class="google" onclick="googleLogin()">Continue with Google</button>
+
+<div class="switch" onclick="toggleMode()" id="switchText">
+Switch to Signup
+</div>
+
+</div>
+
+<script>
+
+let isLogin = true;
+
+function toggleMode(){
+  isLogin = !isLogin;
+  title.innerText = isLogin ? "Login" : "Signup";
+  mainBtn.innerText = isLogin ? "Login" : "Signup";
+  switchText.innerText = isLogin ? "Switch to Signup" : "Switch to Login";
+}
+
+function submitForm(){
+  const url = isLogin ? "/login" : "/signup";
+
+  fetch(url,{
+    method:"POST",
+    headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({
+      email: email.value,
+      password: password.value
+    })
+  })
+  .then(res => isLogin ? res.json() : res.text())
+  .then(data=>{
+    if(isLogin){
+      if(data.success){
+        localStorage.setItem("token", data.token);
+        window.location.href="/homepage.html";
+      }else{
+        alert("Invalid login");
+      }
+    }else{
+      alert(data); // "Signup successful" / "User already exists"
+      if(data === "Signup successful"){
+        toggleMode(); // switch to login after signup
+      }
+    }
+  });
+}
+
+function googleLogin(){
+  window.location.href="/auth/google";
+}
+
+</script>
+
+</body>
+</html>

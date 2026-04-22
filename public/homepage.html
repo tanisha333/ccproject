@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Dashboard</title>
+
+<style>
+body{
+margin:0;
+font-family:Arial;
+background:linear-gradient(135deg,#e6d7ff,#c8a2ff,#a57cff);
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+}
+
+.card{
+background:white;
+padding:30px;
+border-radius:15px;
+width:350px;
+text-align:center;
+box-shadow:0 10px 30px rgba(0,0,0,0.2);
+}
+
+.info{
+margin:10px 0;
+padding:10px;
+background:#f3e8ff;
+border-radius:6px;
+}
+
+button{
+padding:10px;
+background:#9b6bff;
+color:white;
+border:none;
+border-radius:6px;
+cursor:pointer;
+margin-top:10px;
+}
+
+a{
+display:block;
+margin-top:10px;
+color:#7b4fd3;
+text-decoration:none;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="card">
+
+<h2>Welcome 👋</h2>
+
+<div class="info">
+<b>Email:</b>
+<p id="email"></p>
+</div>
+
+<div class="info">
+<b>Status:</b>
+<p id="status"></p>
+</div>
+
+<div class="info">
+<b>Auth Type:</b>
+<p id="auth"></p>
+</div>
+
+<a href="/app1.html">Go to App1</a>
+<a href="/app2.html">Go to App2</a>
+
+<button onclick="logout()">Logout</button>
+
+</div>
+
+<script>
+
+// get token from URL (after Google login)
+const params = new URLSearchParams(window.location.search);
+let token = params.get("token");
+
+// save token
+if(token){
+localStorage.setItem("token", token);
+}
+
+// get token
+token = localStorage.getItem("token");
+
+// if not logged in
+if(!token){
+window.location.href="/";
+}
+
+// verify
+fetch("/verify",{
+headers:{Authorization:token}
+})
+.then(res=>res.json())
+.then(data=>{
+if(data){
+email.innerText = data.email;
+status.innerText = "Active";
+auth.innerText = "Google + JWT SSO";
+}else{
+window.location.href="/";
+}
+});
+
+// logout
+function logout(){
+localStorage.removeItem("token");
+window.location.href="/";
+}
+
+</script>
+
+</body>
+</html>

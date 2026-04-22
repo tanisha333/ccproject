@@ -17,21 +17,20 @@ align-items:center;
 .card{
 background:white;
 padding:30px;
-width:300px;
+width:320px;
 border-radius:18px;
 box-shadow:0 12px 35px rgba(0,0,0,0.15);
 text-align:center;
 }
 
-.count{
-font-size:40px;
-margin:20px 0;
+h2{
 color:#8b5cf6;
+margin-bottom:20px;
 }
 
 button{
-margin:5px;
-padding:10px 15px;
+padding:10px;
+width:100%;
 background:#a78bfa;
 color:white;
 border:none;
@@ -48,38 +47,15 @@ background:#8b5cf6;
 <body>
 
 <div class="card">
-
-<h2>🌸 App2 - Counter</h2>
-
-<div class="count" id="count">0</div>
-
-<button onclick="inc()">+</button>
-<button onclick="dec()">-</button>
-
-<br><br>
+<h2>✨ Welcome to App1</h2>
 
 <button onclick="goBack()">⬅ Back</button>
-
 </div>
 
 <script>
-
-let c = 0;
-
-function inc(){
-c++;
-count.innerText = c;
-}
-
-function dec(){
-c--;
-count.innerText = c;
-}
-
 function goBack(){
 window.location.href="/homepage.html";
 }
-
 </script>
 
 </body>

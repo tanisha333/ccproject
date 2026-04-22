@@ -2,47 +2,46 @@
 <html>
 <head>
 <title>Lavender Auth</title>
-
 <script src="https://cdn.tailwindcss.com"></script>
-
 </head>
 
-<body class="min-h-screen flex items-center justify-center bg-gradient-to-r from-purple-500 to-indigo-600">
+<body class="bg-[#fdf6ff] min-h-screen flex items-center justify-center">
 
-<div class="bg-white p-8 rounded-2xl shadow-xl w-80">
+<div class="bg-white w-80 p-8 rounded-3xl shadow-md border border-purple-100">
 
-<h2 id="title" class="text-2xl font-bold text-center text-purple-700 mb-4">Login</h2>
+<h2 id="title" class="text-2xl font-semibold text-center text-purple-500 mb-6">
+✨ Welcome Back
+</h2>
 
 <input id="email" placeholder="Email"
-class="w-full p-2 border rounded mb-3">
+class="w-full p-2 border border-purple-100 rounded-xl mb-3 focus:outline-none focus:ring-2 focus:ring-pink-200">
 
 <input id="password" type="password" placeholder="Password"
-class="w-full p-2 border rounded mb-3">
+class="w-full p-2 border border-purple-100 rounded-xl mb-4 focus:outline-none focus:ring-2 focus:ring-pink-200">
 
 <button onclick="submitForm()" id="mainBtn"
-class="w-full bg-purple-600 text-white p-2 rounded hover:bg-purple-700 transition">
+class="w-full bg-pink-300 text-white p-2 rounded-xl hover:bg-pink-400 transition">
 Login
 </button>
 
 <button onclick="googleLogin()"
-class="w-full border p-2 rounded mt-3 hover:bg-gray-100">
-Continue with Google
+class="w-full border mt-3 p-2 rounded-xl flex items-center justify-center gap-2 hover:bg-purple-50">
+🌸 Continue with Google
 </button>
 
 <p id="switchText" onclick="toggleMode()"
-class="text-center text-sm text-purple-600 mt-4 cursor-pointer">
+class="text-center text-sm text-purple-400 mt-4 cursor-pointer">
 Switch to Signup
 </p>
 
 </div>
 
 <script>
-
 let isLogin = true;
 
 function toggleMode(){
   isLogin = !isLogin;
-  title.innerText = isLogin ? "Login" : "Signup";
+  title.innerText = isLogin ? "✨ Welcome Back" : "🌸 Create Account";
   mainBtn.innerText = isLogin ? "Login" : "Signup";
   switchText.innerText = isLogin ? "Switch to Signup" : "Switch to Login";
 }
@@ -79,7 +78,6 @@ function submitForm(){
 function googleLogin(){
   window.location.href="/auth/google";
 }
-
 </script>
 
 </body>

@@ -2,37 +2,102 @@
 <html>
 <head>
 <title>Lavender Auth</title>
-<script src="https://cdn.tailwindcss.com"></script>
+
+<style>
+body{
+margin:0;
+font-family:Arial;
+background:linear-gradient(135deg,#f3e8ff,#e6d7ff,#d8b4fe);
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+}
+
+.container{
+background:white;
+padding:35px;
+width:330px;
+border-radius:18px;
+box-shadow:0 12px 35px rgba(0,0,0,0.15);
+text-align:center;
+}
+
+h2{
+color:#8b5cf6;
+margin-bottom:10px;
+}
+
+input{
+width:100%;
+padding:11px;
+margin:10px 0;
+border-radius:8px;
+border:1px solid #e5e7eb;
+transition:0.3s;
+}
+
+input:focus{
+outline:none;
+border-color:#c084fc;
+box-shadow:0 0 5px rgba(192,132,252,0.4);
+}
+
+button{
+width:100%;
+padding:11px;
+background:#a78bfa;
+color:white;
+border:none;
+border-radius:8px;
+cursor:pointer;
+margin-top:10px;
+transition:0.3s;
+}
+
+button:hover{
+background:#8b5cf6;
+}
+
+.google{
+background:white;
+color:#444;
+border:1px solid #ddd;
+}
+
+.google:hover{
+background:#f9f9f9;
+}
+
+.switch{
+margin-top:15px;
+color:#8b5cf6;
+cursor:pointer;
+font-size:14px;
+}
+
+.switch:hover{
+text-decoration:underline;
+}
+</style>
 </head>
 
-<body class="bg-[#fdf6ff] min-h-screen flex items-center justify-center">
+<body>
 
-<div class="bg-white w-80 p-8 rounded-3xl shadow-md border border-purple-100">
+<div class="container">
 
-<h2 id="title" class="text-2xl font-semibold text-center text-purple-500 mb-6">
-✨ Welcome Back
-</h2>
+<h2 id="title">Login</h2>
 
-<input id="email" placeholder="Email"
-class="w-full p-2 border border-purple-100 rounded-xl mb-3 focus:outline-none focus:ring-2 focus:ring-pink-200">
+<input id="email" placeholder="Email">
+<input id="password" type="password" placeholder="Password">
 
-<input id="password" type="password" placeholder="Password"
-class="w-full p-2 border border-purple-100 rounded-xl mb-4 focus:outline-none focus:ring-2 focus:ring-pink-200">
+<button onclick="submitForm()" id="mainBtn">Login</button>
 
-<button onclick="submitForm()" id="mainBtn"
-class="w-full bg-pink-300 text-white p-2 rounded-xl hover:bg-pink-400 transition">
-Login
-</button>
+<button class="google" onclick="googleLogin()">Continue with Google</button>
 
-<button onclick="googleLogin()"
-class="w-full border mt-3 p-2 rounded-xl flex items-center justify-center gap-2 hover:bg-purple-50">
-🌸 Continue with Google
-</button>
-
-<p id="switchText" onclick="toggleMode()"
-class="text-center text-sm text-purple-400 mt-4 cursor-pointer">
+<div class="switch" onclick="toggleMode()" id="switchText">
 Switch to Signup
-</p>
+</div>
 
 </div>
 
@@ -41,7 +106,7 @@ let isLogin = true;
 
 function toggleMode(){
   isLogin = !isLogin;
-  title.innerText = isLogin ? "✨ Welcome Back" : "🌸 Create Account";
+  title.innerText = isLogin ? "Login" : "Signup";
   mainBtn.innerText = isLogin ? "Login" : "Signup";
   switchText.innerText = isLogin ? "Switch to Signup" : "Switch to Login";
 }

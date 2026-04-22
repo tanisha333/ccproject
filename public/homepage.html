@@ -1,90 +1,148 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Dashboard</title>
-<script src="https://cdn.tailwindcss.com"></script>
+<title>Lavender Auth</title>
+
+<style>
+body{
+margin:0;
+font-family:Arial;
+background:linear-gradient(135deg,#f3e8ff,#e6d7ff,#d8b4fe);
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+}
+
+.container{
+background:white;
+padding:35px;
+width:330px;
+border-radius:18px;
+box-shadow:0 12px 35px rgba(0,0,0,0.15);
+text-align:center;
+}
+
+h2{
+color:#8b5cf6;
+margin-bottom:10px;
+}
+
+input{
+width:100%;
+padding:11px;
+margin:10px 0;
+border-radius:8px;
+border:1px solid #e5e7eb;
+transition:0.3s;
+}
+
+input:focus{
+outline:none;
+border-color:#c084fc;
+box-shadow:0 0 5px rgba(192,132,252,0.4);
+}
+
+button{
+width:100%;
+padding:11px;
+background:#a78bfa;
+color:white;
+border:none;
+border-radius:8px;
+cursor:pointer;
+margin-top:10px;
+transition:0.3s;
+}
+
+button:hover{
+background:#8b5cf6;
+}
+
+.google{
+background:white;
+color:#444;
+border:1px solid #ddd;
+}
+
+.google:hover{
+background:#f9f9f9;
+}
+
+.switch{
+margin-top:15px;
+color:#8b5cf6;
+cursor:pointer;
+font-size:14px;
+}
+
+.switch:hover{
+text-decoration:underline;
+}
+</style>
 </head>
 
-<body class="bg-[#fdf6ff] min-h-screen flex items-center justify-center">
+<body>
 
-<div class="bg-white w-96 p-8 rounded-3xl shadow-md border border-purple-100">
+<div class="container">
 
-<h2 class="text-2xl font-semibold text-purple-500 mb-4">
-💖 Hello Beautiful
-</h2>
+<h2 id="title">Login</h2>
 
-<div class="space-y-3 text-left">
+<input id="email" placeholder="Email">
+<input id="password" type="password" placeholder="Password">
 
-<div class="p-3 bg-pink-50 rounded-xl">
-<b>Email</b>
-<p id="email"></p>
+<button onclick="submitForm()" id="mainBtn">Login</button>
+
+<button class="google" onclick="googleLogin()">Continue with Google</button>
+
+<div class="switch" onclick="toggleMode()" id="switchText">
+Switch to Signup
 </div>
-
-<div class="p-3 bg-purple-50 rounded-xl">
-<b>Status</b>
-<p id="status"></p>
-</div>
-
-<div class="p-3 bg-pink-50 rounded-xl">
-<b>Auth Type</b>
-<p id="auth"></p>
-</div>
-
-</div>
-
-<div class="flex gap-3 mt-5">
-<a href="/app1.html"
-class="flex-1 text-center bg-purple-300 text-white p-2 rounded-xl hover:bg-purple-400">
-✨ App1
-</a>
-
-<a href="/app2.html"
-class="flex-1 text-center bg-pink-300 text-white p-2 rounded-xl hover:bg-pink-400">
-🌸 App2
-</a>
-</div>
-
-<button onclick="logout()"
-class="mt-5 w-full bg-red-300 text-white p-2 rounded-xl hover:bg-red-400">
-Logout
-</button>
 
 </div>
 
 <script>
+let isLogin = true;
 
-const params = new URLSearchParams(window.location.search);
-let token = params.get("token");
-
-if(token){
-localStorage.setItem("token", token);
+function toggleMode(){
+  isLogin = !isLogin;
+  title.innerText = isLogin ? "Login" : "Signup";
+  mainBtn.innerText = isLogin ? "Login" : "Signup";
+  switchText.innerText = isLogin ? "Switch to Signup" : "Switch to Login";
 }
 
-token = localStorage.getItem("token");
+function submitForm(){
+  const url = isLogin ? "/login" : "/signup";
 
-if(!token){
-window.location.href="/";
+  fetch(url,{
+    method:"POST",
+    headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({
+      email: email.value,
+      password: password.value
+    })
+  })
+  .then(res => isLogin ? res.json() : res.text())
+  .then(data=>{
+    if(isLogin){
+      if(data.success){
+        localStorage.setItem("token", data.token);
+        window.location.href="/homepage.html";
+      }else{
+        alert("Invalid login");
+      }
+    }else{
+      alert(data);
+      if(data === "Signup successful"){
+        toggleMode();
+      }
+    }
+  });
 }
 
-fetch("/verify",{
-headers:{Authorization:token}
-})
-.then(res=>res.json())
-.then(data=>{
-if(data){
-email.innerText = data.email;
-status.innerText = "Active";
-auth.innerText = "Google + JWT SSO";
-}else{
-window.location.href="/";
+function googleLogin(){
+  window.location.href="/auth/google";
 }
-});
-
-function logout(){
-localStorage.removeItem("token");
-window.location.href="/";
-}
-
 </script>
 
 </body>
